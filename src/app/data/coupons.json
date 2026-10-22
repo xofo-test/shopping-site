@@ -1,0 +1,34 @@
+[
+  {
+    "code": "SAVE10",
+    "type": "percent",
+    "value": 10,
+    "minOrder": 999,
+    "expiresOn": "2027-09-30",
+    "description": "10% off on orders above ₹999"
+  },
+  {
+    "code": "FLAT250",
+    "type": "flat",
+    "value": 250,
+    "minOrder": 1499,
+    "expiresOn": "2027-12-31",
+    "description": "₹250 off on orders above ₹1,499"
+  },
+  {
+    "code": "NEW15",
+    "type": "percent",
+    "value": 15,
+    "minOrder": 2999,
+    "expiresOn": "2027-03-31",
+    "description": "15% off on orders above ₹2,999"
+  },
+  {
+    "code": "WELCOME500",
+    "type": "flat",
+    "value": 500,
+    "minOrder": 0,
+    "expiresOn": "2024-08-31",
+    "description": "Expired welcome offer — ₹500 off"
+  }
+]

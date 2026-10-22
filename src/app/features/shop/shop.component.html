@@ -1,0 +1,47 @@
+<section class="hero panel">
+  <div>
+    <h1>Everyday essentials, thoughtfully picked.</h1>
+    <p class="muted">Free delivery on every order · GST calculated at checkout · Easy 30-day returns.</p>
+  </div>
+  <div class="hero-art" aria-hidden="true">🛍️</div>
+</section>
+
+<div class="section-head">
+  <h2>Featured products</h2>
+  <span class="pill">{{ products.length }} items</span>
+</div>
+
+<section class="product-grid" aria-label="Product catalogue">
+  @for (p of products; track p.id) {
+    <article class="product-card">
+      <div class="product-media">
+        <img [src]="p.image" [alt]="p.name" />
+      </div>
+      <div class="product-body">
+        <span class="chip">{{ p.category }}</span>
+        <h3>{{ p.name }}</h3>
+        <p class="muted small clamp">{{ p.blurb }}</p>
+        <p class="rating" [attr.aria-label]="'Rated ' + p.rating + ' out of 5'">
+          <span class="star" aria-hidden="true">★</span> {{ p.rating }}
+          <span class="muted small">({{ reviewsText(p.reviews) }} reviews)</span>
+        </p>
+        <p class="price-row">
+          <span class="price">{{ p.price | money }}</span>
+          <s class="mrp">{{ p.mrp | money }}</s>
+          <span class="off">{{ off(p) }}% off</span>
+        </p>
+        @if (p.variants) {
+          <label class="variant-label">
+            <span>{{ p.variants.label }}</span>
+            <select [attr.aria-label]="p.variants.label + ' for ' + p.name" [(ngModel)]="selected[p.id]">
+              @for (o of p.variants.options; track o) {
+                <option [value]="o">{{ o }}</option>
+              }
+            </select>
+          </label>
+        }
+        <button type="button" class="btn btn-primary btn-block" (click)="add(p)">Add to cart</button>
+      </div>
+    </article>
+  }
+</section>

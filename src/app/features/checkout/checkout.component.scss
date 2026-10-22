@@ -1,0 +1,123 @@
+.checkout-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 350px;
+  gap: var(--space-5);
+  align-items: start;
+
+  @media (max-width: 960px) {
+    grid-template-columns: 1fr;
+  }
+}
+
+.checkout-form {
+  padding: var(--space-5);
+}
+
+/* ---------- Form ---------- */
+fieldset {
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  padding: var(--space-4);
+  margin: 0 0 var(--space-4);
+}
+legend {
+  font-weight: 700;
+  padding: 0 var(--space-2);
+  font-size: 0.95rem;
+}
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--text-muted);
+}
+input[type='text'],
+input[type='tel'],
+input[type='email'],
+select,
+textarea {
+  font: inherit;
+  color: var(--text);
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: 9px 12px;
+  width: 100%;
+
+  &:focus {
+    border-color: var(--primary);
+    outline: none;
+  }
+}
+textarea {
+  resize: vertical;
+  min-height: 70px;
+}
+.form-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--space-4);
+
+  .span-2 {
+    grid-column: span 2;
+  }
+
+  @media (max-width: 640px) {
+    grid-template-columns: 1fr;
+
+    .span-2 {
+      grid-column: span 1;
+    }
+  }
+}
+
+/* ---------- Payment options ---------- */
+.pay-group {
+  display: grid;
+  gap: var(--space-3);
+}
+.pay-option {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  padding: var(--space-3) var(--space-4);
+  cursor: pointer;
+
+  &:hover {
+    border-color: var(--primary);
+  }
+  input {
+    accent-color: var(--primary);
+    width: 16px;
+    height: 16px;
+  }
+  .pay-icon {
+    font-size: 1.3rem;
+  }
+}
+
+/* ---------- Success card ---------- */
+.success-card {
+  max-width: 480px;
+  margin: var(--space-5) auto;
+  padding: var(--space-6) var(--space-5);
+  text-align: center;
+}
+.check-circle {
+  width: 72px;
+  height: 72px;
+  margin: 0 auto var(--space-4);
+  border-radius: 50%;
+  background: var(--success-soft);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.hero-art {
+  font-size: 3.4rem;
+  line-height: 1;
+}

@@ -1,0 +1,6 @@
+{
+  "currency": { "code": "INR", "symbol": "₹", "locale": "en-IN" },
+  "deliveryFee": 79,
+  "taxRate": 0.12,
+  "taxLabel": "GST (12%)"
+}

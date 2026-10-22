@@ -1,0 +1,88 @@
+/* ============================================================
+   Marigold — SCSS design tokens
+   Single source of truth for colour, spacing, radius, shadow,
+   typography and breakpoints. Emitted as CSS custom properties
+   on :root so component and global styles share one system.
+   ============================================================ */
+
+/* ---------- Colour ---------- */
+$bg: #f5f6fa;
+$surface: #ffffff;
+$surface-2: #eef0f7;
+$text: #1c2033;
+$text-muted: #5b6178;
+$border: #e2e4ee;
+
+$primary: #4f46e5;
+$primary-strong: #4338ca;
+$primary-soft: #eef0fe;
+
+$success: #0f9d58;
+$success-soft: #e7f4ed;
+$danger: #d93025;
+$danger-soft: #fdecea;
+$warning: #9a6700;
+$warning-soft: #fff3d6;
+
+$focus-ring: #b6b2f8;
+
+/* ---------- Typography ---------- */
+$font: "Segoe UI", system-ui, -apple-system, Roboto, "Helvetica Neue", Arial, sans-serif;
+
+/* ---------- Radius ---------- */
+$radius-sm: 8px;
+$radius-md: 12px;
+$radius-lg: 16px;
+
+/* ---------- Shadow ---------- */
+$shadow-sm: 0 1px 3px rgba(23, 26, 54, 0.07);
+$shadow-md: 0 8px 24px rgba(23, 26, 54, 0.09);
+
+/* ---------- Spacing ---------- */
+$space-1: 4px;
+$space-2: 8px;
+$space-3: 12px;
+$space-4: 16px;
+$space-5: 24px;
+$space-6: 32px;
+
+/* ---------- Breakpoints ---------- */
+$bp-tablet: 960px;
+$bp-mobile: 640px;
+
+@mixin below($width) {
+  @media (max-width: $width) {
+    @content;
+  }
+}
+
+/* ---------- CSS custom properties ---------- */
+:root {
+  --font: #{$font};
+  --bg: #{$bg};
+  --surface: #{$surface};
+  --surface-2: #{$surface-2};
+  --text: #{$text};
+  --text-muted: #{$text-muted};
+  --border: #{$border};
+  --primary: #{$primary};
+  --primary-strong: #{$primary-strong};
+  --primary-soft: #{$primary-soft};
+  --success: #{$success};
+  --success-soft: #{$success-soft};
+  --danger: #{$danger};
+  --danger-soft: #{$danger-soft};
+  --warning: #{$warning};
+  --warning-soft: #{$warning-soft};
+  --radius-sm: #{$radius-sm};
+  --radius-md: #{$radius-md};
+  --radius-lg: #{$radius-lg};
+  --shadow-sm: #{$shadow-sm};
+  --shadow-md: #{$shadow-md};
+  --space-1: #{$space-1};
+  --space-2: #{$space-2};
+  --space-3: #{$space-3};
+  --space-4: #{$space-4};
+  --space-5: #{$space-5};
+  --space-6: #{$space-6};
+}
