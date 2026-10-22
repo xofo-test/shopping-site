@@ -40,9 +40,10 @@ no payment — all data comes from typed mock JSON and the cart persists in
   Dark mode follows `prefers-color-scheme` through token overrides only.
 - Icons: [Phosphor](https://phosphoricons.com) via `@ng-icons/core` +
   `@ng-icons/phosphor-icons` (registered app-wide in `app.config.ts`).
-- Imagery: seeded placeholder photography (picsum.photos) per product with an
-  automatic offline SVG fallback (`ProductService.handleImageError`), so the
-  full flow still demos with no network.
+- Imagery: product-matched stock photography (Unsplash CDN, square-cropped)
+  per product with an automatic offline SVG fallback
+  (`ProductService.handleImageError`), so the full flow still demos with no
+  network.
 - Motion: subtle 0.15s transitions; everything collapses under
   `prefers-reduced-motion: reduce`.
 

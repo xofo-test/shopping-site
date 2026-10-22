@@ -37,9 +37,7 @@ export interface Product {
   icon: string;
   tone: [string, string];
   variants: Variants | null;
-  /** Seeded placeholder photography URL (swap for real product photos later). */
-  photoSeed: string;
-  /** Full placeholder photo URL, added by ProductService at load time. */
+  /** Product-matched stock photography URL (swap for a real product CDN later). */
   photoUrl: string;
   /** Offline SVG artwork data URI (fallback when photos can't load), added by ProductService. */
   image: string;

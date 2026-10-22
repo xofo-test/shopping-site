@@ -10,7 +10,7 @@
     "blurb": "40-hour battery, hybrid noise cancellation, USB-C fast charge.",
     "icon": "🎧",
     "tone": ["#6366f1", "#8b5cf6"],
-    "photoSeed": "marigold-headphones",
+    "photoUrl": "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?auto=format&fit=crop&w=640&h=640&q=80",
     "variants": { "label": "Colour", "options": ["Midnight Black", "Cloud White", "Steel Blue"] }
   },
   {
@@ -24,7 +24,7 @@
     "blurb": "Everyday running shoes with a cloud-foam midsole and grip outsole.",
     "icon": "👟",
     "tone": ["#0ea5e9", "#14b8a6"],
-    "photoSeed": "marigold-sneakers",
+    "photoUrl": "https://images.unsplash.com/photo-1542291026-7eec264c27ff?auto=format&fit=crop&w=640&h=640&q=80",
     "variants": { "label": "Size", "options": ["UK 6", "UK 7", "UK 8", "UK 9"] }
   },
   {
@@ -38,7 +38,7 @@
     "blurb": "Gooseneck kettle with a precision flow spout for perfect brews.",
     "icon": "🫖",
     "tone": ["#f59e0b", "#ef4444"],
-    "photoSeed": "marigold-kettle",
+    "photoUrl": "https://images.unsplash.com/photo-1521302200778-33500795e128?auto=format&fit=crop&w=640&h=640&q=80",
     "variants": null
   },
   {
@@ -52,7 +52,7 @@
     "blurb": "Minimal 38 mm dial, sapphire-coated glass, 5 ATM water resistance.",
     "icon": "⌚",
     "tone": ["#334155", "#64748b"],
-    "photoSeed": "marigold-watch",
+    "photoUrl": "https://images.unsplash.com/photo-1523275335684-37898b6baf30?auto=format&fit=crop&w=640&h=640&q=80",
     "variants": { "label": "Colour", "options": ["Ivory", "Slate Grey"] }
   },
   {
@@ -66,7 +66,7 @@
     "blurb": "180 GSM combed cotton in a relaxed, pre-shrunk fit.",
     "icon": "👕",
     "tone": ["#fb7185", "#f97316"],
-    "photoSeed": "marigold-tee",
+    "photoUrl": "https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?auto=format&fit=crop&w=640&h=640&q=80",
     "variants": { "label": "Size", "options": ["S", "M", "L", "XL"] }
   },
   {
@@ -80,7 +80,7 @@
     "blurb": "Water-resistant daypack with padded 15-inch laptop sleeve.",
     "icon": "🎒",
     "tone": ["#65a30d", "#166534"],
-    "photoSeed": "marigold-backpack",
+    "photoUrl": "https://images.unsplash.com/photo-1553062407-98eeb64c6a62?auto=format&fit=crop&w=640&h=640&q=80",
     "variants": { "label": "Colour", "options": ["Olive", "Charcoal"] }
   },
   {
@@ -94,7 +94,7 @@
     "blurb": "Hand-glazed 300 ml mugs, safe for microwave and dishwasher.",
     "icon": "☕",
     "tone": ["#ea580c", "#9a3412"],
-    "photoSeed": "marigold-mugs",
+    "photoUrl": "https://images.unsplash.com/photo-1514228742587-6b1558fcca3d?auto=format&fit=crop&w=640&h=640&q=80",
     "variants": null
   },
   {
@@ -108,7 +108,7 @@
     "blurb": "Low-maintenance golden pothos in a matte ceramic pot.",
     "icon": "🪴",
     "tone": ["#10b981", "#047857"],
-    "photoSeed": "marigold-plant",
+    "photoUrl": "https://images.unsplash.com/photo-1485955900006-10f4d324d411?auto=format&fit=crop&w=640&h=640&q=80",
     "variants": { "label": "Size", "options": ["Small", "Medium"] }
   }
 ]
