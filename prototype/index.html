@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Marigold — Shop Everyday Essentials</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="brand" href="index.html"><span class="brand-mark" aria-hidden="true">❖</span> Marigold</a>
+      <nav class="site-nav" aria-label="Primary">
+        <a href="index.html" class="active" aria-current="page">Shop</a>
+        <a href="cart.html">Cart</a>
+        <a href="checkout.html">Checkout</a>
+      </nav>
+      <a class="cart-link" href="cart.html" aria-label="View cart">
+        <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M3 4h2.5l2.2 10.5h10.1L20 7H7"></path>
+          <circle cx="9.5" cy="19" r="1.6"></circle>
+          <circle cx="16.5" cy="19" r="1.6"></circle>
+        </svg>
+        <span class="badge" id="cartCount">0</span>
+      </a>
+    </div>
+  </header>
+
+  <main class="container page">
+    <section class="hero panel">
+      <div>
+        <h1>Everyday essentials, thoughtfully picked.</h1>
+        <p class="muted">Free delivery on every order · GST calculated at checkout · Easy 30-day returns.</p>
+      </div>
+      <div class="hero-art" aria-hidden="true">🛍️</div>
+    </section>
+
+    <div class="section-head">
+      <h2>Featured products</h2>
+      <span class="pill" id="productCount"></span>
+    </div>
+
+    <section class="product-grid" id="productGrid" aria-label="Product catalogue"></section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <p class="small muted">Marigold — prototype storefront for the online shopping cart module. Prices in INR (₹). No real orders are placed.</p>
+    </div>
+  </footer>
+
+  <script src="fixtures.js"></script>
+  <script src="cart.js"></script>
+  <script>
+    (function () {
+      var F = window.OSC_FIXTURES;
+      var OSC = window.OSC;
+      var grid = document.getElementById('productGrid');
+      var countBadge = document.getElementById('cartCount');
+
+      function reviewsText(n) {
+        return n >= 1000 ? (n / 1000).toFixed(1).replace(/\.0$/, '') + 'k' : String(n);
+      }
+
+      function cardHtml(p) {
+        var off = Math.round((1 - p.price / p.mrp) * 100);
+        var variant = '';
+        if (p.variants) {
+          var options = p.variants.options.map(function (o) {
+            return '<option value="' + o + '">' + o + '</option>';
+          }).join('');
+          variant = '<label class="variant-label"><span>' + p.variants.label + '</span>' +
+            '<select data-variant-for="' + p.id + '" aria-label="' + p.variants.label + ' for ' + p.name + '">' +
+            options + '</select></label>';
+        }
+        return '<article class="product-card">' +
+          '<div class="product-media"><img src="' + p.image + '" alt="' + p.name + '"></div>' +
+          '<div class="product-body">' +
+            '<span class="chip">' + p.category + '</span>' +
+            '<h3>' + p.name + '</h3>' +
+            '<p class="muted small clamp">' + p.blurb + '</p>' +
+            '<p class="rating" aria-label="Rated ' + p.rating + ' out of 5">' +
+              '<span class="star" aria-hidden="true">★</span> ' + p.rating +
+              ' <span class="muted small">(' + reviewsText(p.reviews) + ' reviews)</span></p>' +
+            '<p class="price-row"><span class="price">' + OSC.money(p.price) + '</span>' +
+              '<s class="mrp">' + OSC.money(p.mrp) + '</s>' +
+              '<span class="off">' + off + '% off</span></p>' +
+            variant +
+            '<button class="btn btn-primary btn-block" data-add="' + p.id + '">Add to cart</button>' +
+          '</div></article>';
+      }
+
+      grid.innerHTML = F.products.map(cardHtml).join('');
+      document.getElementById('productCount').textContent = F.products.length + ' items';
+
+      grid.addEventListener('click', function (e) {
+        var btn = e.target.closest('[data-add]');
+        if (!btn) return;
+        var id = btn.getAttribute('data-add');
+        var p = OSC.productOf(id);
+        var select = grid.querySelector('[data-variant-for="' + id + '"]');
+        var variant = select ? select.value : null;
+        OSC.add(id, variant);
+        OSC.toast('Added “' + p.name + (variant ? ' · ' + variant : '') + '” to your cart');
+      });
+
+      function renderBadge() {
+        countBadge.textContent = OSC.itemCount();
+      }
+      OSC.onChange(renderBadge);
+      renderBadge();
+    })();
+  </script>
+</body>
+</html>

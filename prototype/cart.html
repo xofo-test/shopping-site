@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Your Cart — Marigold</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="brand" href="index.html"><span class="brand-mark" aria-hidden="true">❖</span> Marigold</a>
+      <nav class="site-nav" aria-label="Primary">
+        <a href="index.html">Shop</a>
+        <a href="cart.html" class="active" aria-current="page">Cart</a>
+        <a href="checkout.html">Checkout</a>
+      </nav>
+      <a class="cart-link" href="cart.html" aria-label="View cart">
+        <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M3 4h2.5l2.2 10.5h10.1L20 7H7"></path>
+          <circle cx="9.5" cy="19" r="1.6"></circle>
+          <circle cx="16.5" cy="19" r="1.6"></circle>
+        </svg>
+        <span class="badge" id="cartCount">0</span>
+      </a>
+    </div>
+  </header>
+
+  <main class="container page">
+    <h1>Your cart</h1>
+    <div id="cartRoot"></div>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <p class="small muted">Marigold — prototype storefront for the online shopping cart module. Prices in INR (₹). No real orders are placed.</p>
+    </div>
+  </footer>
+
+  <script src="fixtures.js"></script>
+  <script src="cart.js"></script>
+  <script>
+    (function () {
+      var OSC = window.OSC;
+      var root = document.getElementById("cartRoot");
+      var lastCouponMsg = null; // { text, ok } — survives re-renders
+
+      var EMPTY_SVG =
+        '<svg viewBox="0 0 220 160" width="210" height="152" role="img" aria-label="Illustration of an empty shopping cart">' +
+          '<g fill="none" stroke="#4f46e5" stroke-width="5" stroke-linecap="round" stroke-linejoin="round">' +
+            '<path d="M16 22h22l22 86h88l22-60H52"></path>' +
+            '<path d="M88 118l-4-10" stroke="#a5b4fc"></path>' +
+            '<circle cx="82" cy="130" r="10"></circle>' +
+            '<circle cx="152" cy="130" r="10"></circle>' +
+          '</g>' +
+          '<g stroke="#f59e0b" stroke-width="3" stroke-linecap="round">' +
+            '<path d="M186 26l3 8 8 3-8 3-3 8-3-8-8-3 8-3z" fill="#fde68a"></path>' +
+            '<path d="M30 58l2 6 6 2-6 2-2 6-2-6-6-2 6-2z" fill="#fde68a"></path>' +
+          '</g>' +
+        '</svg>';
+
+      function lineHtml(l, p) {
+        var variantText = l.variant
+          ? (p.variants ? p.variants.label + ": " : "") + l.variant
+          : p.category;
+        return '<li class="line">' +
+          '<img class="line-media" src="' + p.image + '" alt="' + p.name + '">' +
+          '<div class="line-info">' +
+            '<h3>' + p.name + '</h3>' +
+            '<p class="muted small">' + variantText + '</p>' +
+            '<p class="muted small">' + OSC.money(p.price) + ' each</p>' +
+          '</div>' +
+          '<div class="line-qty">' +
+            '<div class="stepper">' +
+              '<button type="button" data-line="' + l.id + '" data-step="-1" aria-label="Decrease quantity of ' + p.name + '">−</button>' +
+              '<span class="qty" aria-live="polite">' + l.qty + '</span>' +
+              '<button type="button" data-line="' + l.id + '" data-step="1" aria-label="Increase quantity of ' + p.name + '">+</button>' +
+            '</div>' +
+            '<button type="button" class="link-danger" data-remove="' + l.id + '">Remove</button>' +
+          '</div>' +
+          '<div class="line-subtotal">' + OSC.money(p.price * l.qty) + '</div>' +
+        '</li>';
+      }
+
+      function summaryRow(term, value, neg) {
+        return '<div class="summary-row"><dt>' + term + '</dt><dd' + (neg ? ' class="neg"' : '') + '>' + value + '</dd></div>';
+      }
+
+      function render() {
+        var t = OSC.totals();
+        document.getElementById("cartCount").textContent = t.itemCount;
+
+        if (t.lines.length === 0) {
+          lastCouponMsg = null;
+          root.innerHTML =
+            '<section class="panel empty-state">' +
+              EMPTY_SVG +
+              '<h2>Your cart is feeling light</h2>' +
+              '<p>Looks like you haven’t added anything yet. Explore the store and find something you love.</p>' +
+              '<a class="btn btn-primary btn-lg" href="index.html">Continue shopping</a>' +
+            '</section>';
+          return;
+        }
+
+        var rows = "";
+        rows += summaryRow("Subtotal", OSC.money(t.subtotal));
+        if (t.coupon.applied) {
+          rows += summaryRow(
+            'Discount <span class="coupon-chip">' + t.coupon.code +
+            '<button type="button" data-remove-coupon="1" aria-label="Remove coupon">×</button></span>',
+            "−" + OSC.money(t.discount), true);
+        }
+        rows += summaryRow("Estimated delivery", OSC.money(t.delivery));
+        rows += summaryRow(window.OSC_FIXTURES.pricing.taxLabel, OSC.money(t.tax));
+        rows += '<div class="summary-row total-row"><dt>Total</dt><dd>' + OSC.money(t.total) + '</dd></div>';
+
+        var couponNotice = "";
+        if (t.coupon.code && !t.coupon.applied) {
+          couponNotice = '<p class="alert alert-warning coupon-msg" role="status">Coupon ' + t.coupon.code + ' ' + t.coupon.reason +
+            ' — the discount is not applied yet.</p>';
+        } else if (lastCouponMsg) {
+          couponNotice = '<p class="coupon-msg ' + (lastCouponMsg.ok ? "ok" : "err") + '" role="status">' + lastCouponMsg.text + '</p>';
+        }
+
+        var validCodes = window.OSC_FIXTURES.coupons
+          .filter(function (c) { return new Date(c.expiresOn + "T23:59:59") >= new Date(); })
+          .map(function (c) { return c.code; }).join(" · ");
+
+        root.innerHTML =
+          '<div class="cart-layout">' +
+            '<section class="panel cart-panel" aria-label="Cart items">' +
+              '<div class="panel-head">' +
+                '<h2>Items in cart <span class="pill">' + t.lines.length + (t.lines.length === 1 ? " item" : " items") + '</span></h2>' +
+                '<button type="button" class="btn btn-ghost-danger" id="clearBtn">Clear cart</button>' +
+              '</div>' +
+              '<ul class="line-list">' +
+                t.lines.map(function (l) { return lineHtml(l, OSC.productOf(l.productId)); }).join("") +
+              '</ul>' +
+            '</section>' +
+            '<aside class="panel summary" aria-label="Order summary">' +
+              '<h2>Order summary</h2>' +
+              '<dl class="summary-rows">' + rows + '</dl>' +
+              (t.discount > 0 ? '<p class="savings-note">You are saving ' + OSC.money(t.discount) + ' on this order 🎉</p>' : "") +
+              '<div class="coupon-box">' +
+                '<form class="coupon-form" id="couponForm">' +
+                  '<input type="text" id="couponInput" placeholder="Coupon code" aria-label="Coupon code" autocomplete="off">' +
+                  '<button type="submit" class="btn btn-ghost">Apply</button>' +
+                '</form>' +
+                couponNotice +
+                '<p class="coupon-hint">Try: ' + validCodes + ' · or an expired one: WELCOME500</p>' +
+              '</div>' +
+              '<a class="btn btn-primary btn-block btn-lg" href="checkout.html">Proceed to checkout</a>' +
+              '<p class="small muted center mt"><a href="index.html">Continue shopping</a></p>' +
+            '</aside>' +
+          '</div>';
+      }
+
+      /* ---- delegated interactions ---- */
+      root.addEventListener("click", function (e) {
+        var step = e.target.closest("[data-step]");
+        if (step) {
+          var line = OSC.getCart().find(function (l) { return l.id === step.getAttribute("data-line"); });
+          if (line) OSC.setQty(line.id, line.qty + Number(step.getAttribute("data-step")));
+          return;
+        }
+        var rm = e.target.closest("[data-remove]");
+        if (rm) { OSC.remove(rm.getAttribute("data-remove")); return; }
+        if (e.target.closest("[data-remove-coupon]")) { OSC.clearCoupon(); lastCouponMsg = null; return; }
+        if (e.target.closest("#clearBtn")) {
+          if (window.confirm("Remove all items from your cart?")) {
+            OSC.clear();
+            OSC.toast("Cart cleared");
+          }
+        }
+      });
+
+      root.addEventListener("submit", function (e) {
+        if (e.target.id !== "couponForm") return;
+        e.preventDefault();
+        var input = document.getElementById("couponInput");
+        var code = input.value.trim();
+        if (!code) {
+          lastCouponMsg = { ok: false, text: "Enter a coupon code to apply." };
+          render();
+          return;
+        }
+        var result = OSC.applyCoupon(code);
+        lastCouponMsg = { ok: result.ok, text: result.message };
+        render();
+      });
+
+      OSC.onChange(render);
+      render();
+    })();
+  </script>
+</body>
+</html>
