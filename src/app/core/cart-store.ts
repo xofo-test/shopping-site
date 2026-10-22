@@ -25,13 +25,24 @@ function storageAvailable(): boolean {
   }
 }
 
-function readJson<T>(key: string, fallback: T): T {
+function readJson<T>(key: string, fallback: T, isValid: (value: unknown) => value is T): T {
   try {
     const raw = localStorage.getItem(key);
-    return raw ? (JSON.parse(raw) as T) : fallback;
+    if (!raw) return fallback;
+    const value: unknown = JSON.parse(raw);
+    return isValid(value) ? value : fallback;
   } catch {
     return fallback;
   }
+}
+
+/** Shape guards so corrupt-but-valid JSON never enters the store. */
+function isLineArray(value: unknown): value is CartLine[] {
+  return Array.isArray(value);
+}
+
+function isCouponCode(value: unknown): value is string | null {
+  return value === null || typeof value === 'string';
 }
 
 @Injectable({ providedIn: 'root' })
@@ -54,13 +65,13 @@ export class CartStore {
   readonly itemCount = computed(() => this.totals().itemCount);
 
   constructor() {
-    this._lines.set(this.persistent ? readJson<CartLine[]>(CART_KEY, []) : []);
-    this._couponCode.set(this.persistent ? readJson<string | null>(COUPON_KEY, null) : null);
+    this._lines.set(this.persistent ? readJson<CartLine[]>(CART_KEY, [], isLineArray) : []);
+    this._couponCode.set(this.persistent ? readJson<string | null>(COUPON_KEY, null, isCouponCode) : null);
 
     if (this.persistent) {
       window.addEventListener('storage', (e) => {
-        if (e.key === CART_KEY) this._lines.set(readJson<CartLine[]>(CART_KEY, []));
-        if (e.key === COUPON_KEY) this._couponCode.set(readJson<string | null>(COUPON_KEY, null));
+        if (e.key === CART_KEY) this._lines.set(readJson<CartLine[]>(CART_KEY, [], isLineArray));
+        if (e.key === COUPON_KEY) this._couponCode.set(readJson<string | null>(COUPON_KEY, null, isCouponCode));
       });
     }
   }
@@ -117,7 +128,7 @@ export class CartStore {
       return {
         ok: false,
         message:
-          'Add ₹' + shortfall.toLocaleString('en-IN') + ' more to use this coupon (' + check.reason + ').',
+          'Add ' + this.pricing.money(shortfall) + ' more to use this coupon (' + check.reason + ').',
       };
     }
     this._couponCode.set(coupon.code);

@@ -66,7 +66,9 @@ export class PricingService {
 
     return {
       lines,
-      itemCount: lines.reduce((s, l) => s + l.qty, 0),
+      // Count only lines whose product still resolves, so the header badge
+      // can never disagree with the (filtered) cart list after a catalogue change.
+      itemCount: lines.reduce((s, l) => (this.products.productOf(l.productId) ? s + l.qty : s), 0),
       subtotal,
       discount,
       coupon: couponInfo,

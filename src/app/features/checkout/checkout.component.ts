@@ -1,4 +1,4 @@
-import { Component, computed, inject, signal } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { RouterLink } from '@angular/router';
 import { NgIcon } from '@ng-icons/core';
@@ -26,7 +26,8 @@ export class CheckoutComponent {
   private readonly store = inject(CartStore);
   private readonly toast = inject(ToastService);
 
-  protected readonly t = computed(() => this.store.totals());
+  /** Auto-updating totals straight from the store. */
+  protected readonly t = this.store.totals;
   protected readonly placed = signal<PlacedOrder | null>(null);
 
   protected readonly states = [
@@ -58,7 +59,10 @@ export class CheckoutComponent {
 
     const missing: string[] = [];
     if (!this.form.name.trim()) missing.push('full name');
+    const phone = this.form.phone.replace(/[\s-]/g, '');
+    if (!/^[6-9]\d{9}$/.test(phone)) missing.push('a valid 10-digit phone number');
     if (!this.form.address.trim()) missing.push('address');
+    if (!this.form.city.trim()) missing.push('city');
     if (!/^\d{6}$/.test(this.form.pin.trim())) missing.push('a valid 6-digit PIN code');
     if (missing.length) {
       this.formError.set('Please enter your ' + missing.join(', ') + '.');

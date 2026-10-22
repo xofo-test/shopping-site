@@ -120,4 +120,26 @@ describe('CartStore (pricing & coupon engine)', () => {
     expect(raw[0].productId).toBe('p1');
     expect(localStorage.getItem('marigold.coupon.v1')).toBe('SAVE10');
   });
+
+  it('ignores a corrupt-but-valid stored cart and starts empty', () => {
+    localStorage.setItem('marigold.cart.v1', JSON.stringify({}));
+    TestBed.resetTestingModule();
+    TestBed.configureTestingModule({});
+    const fresh = TestBed.inject(CartStore);
+    expect(fresh.lines()).toEqual([]);
+    fresh.add('p1', 'Midnight Black'); // first mutation must not throw
+    expect(fresh.itemCount()).toBe(1);
+  });
+
+  it('itemCount skips lines whose product no longer resolves, matching the cart list', () => {
+    localStorage.setItem(
+      'marigold.cart.v1',
+      JSON.stringify([{ id: 'gone|default', productId: 'gone', variant: null, qty: 3 }]),
+    );
+    TestBed.resetTestingModule();
+    TestBed.configureTestingModule({});
+    const fresh = TestBed.inject(CartStore);
+    expect(fresh.lines().length).toBe(1); // the line is still stored…
+    expect(fresh.itemCount()).toBe(0); // …but the badge ignores the unknown product
+  });
 });

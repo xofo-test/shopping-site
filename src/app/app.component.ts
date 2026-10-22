@@ -17,6 +17,6 @@ import { ConfirmDialogComponent } from './shared/confirm-dialog.component';
     <app-toast-host />
     <app-confirm-dialog />
   `,
-  styleUrl: './app.scss',
+  styleUrl: './app.component.scss',
 })
-export class App {}
+export class AppComponent {}

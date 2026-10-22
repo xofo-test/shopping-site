@@ -5,12 +5,17 @@
    a real coupon API later.
    ============================================================ */
 import { Injectable } from '@angular/core';
-import { Coupon, CouponCheck } from '../data/models';
+import { Coupon, CouponCheck, PricingFile } from '../data/models';
 import COUPONS_JSON from '../data/coupons.json';
+import PRICING_JSON from '../data/pricing.json';
+import { makeMoneyFormatter } from './money';
 
 @Injectable({ providedIn: 'root' })
 export class CouponService {
   readonly coupons: Coupon[] = COUPONS_JSON as Coupon[];
+
+  /** Formats money through the pricing.json currency config — no hardcoded symbol. */
+  private readonly money = makeMoneyFormatter((PRICING_JSON as PricingFile).currency);
 
   find(code: string): Coupon | null {
     const c = String(code ?? '').trim().toUpperCase();
@@ -25,7 +30,7 @@ export class CouponService {
       return { valid: false, reason: 'expired on ' + this.formatDate(coupon.expiresOn) };
     }
     if (subtotal < coupon.minOrder) {
-      return { valid: false, reason: 'needs a minimum order of ₹' + coupon.minOrder.toLocaleString('en-IN') };
+      return { valid: false, reason: 'needs a minimum order of ' + this.money(coupon.minOrder) };
     }
     return { valid: true, reason: null };
   }
@@ -36,7 +41,7 @@ export class CouponService {
   }
 
   describe(c: Coupon): string {
-    return c.type === 'percent' ? c.value + '% off' : '₹' + c.value.toLocaleString('en-IN') + ' off';
+    return c.type === 'percent' ? c.value + '% off' : this.money(c.value) + ' off';
   }
 
   formatDate(iso: string): string {
