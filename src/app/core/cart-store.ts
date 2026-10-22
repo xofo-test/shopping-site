@@ -122,7 +122,7 @@ export class CartStore {
     }
     this._couponCode.set(coupon.code);
     this.persistCoupon();
-    return { ok: true, message: 'Coupon ' + coupon.code + ' applied — ' + this.couponService.describe(coupon) + '.' };
+    return { ok: true, message: 'Coupon ' + coupon.code + ' applied: ' + this.couponService.describe(coupon) + '.' };
   }
 
   clearCoupon(): void {

@@ -96,7 +96,9 @@ textarea {
     height: 16px;
   }
   .pay-icon {
-    font-size: 1.3rem;
+    color: var(--primary);
+    font-size: 22px;
+    flex-shrink: 0;
   }
 }
 
@@ -113,11 +115,36 @@ textarea {
   margin: 0 auto var(--space-4);
   border-radius: 50%;
   background: var(--success-soft);
+  color: var(--success);
   display: flex;
   align-items: center;
   justify-content: center;
+
+  ng-icon {
+    font-size: 36px;
+  }
 }
-.hero-art {
-  font-size: 3.4rem;
-  line-height: 1;
+.basket-circle {
+  width: 88px;
+  height: 88px;
+  margin: 0 auto var(--space-4);
+  border-radius: 50%;
+  background: var(--primary-soft);
+  color: var(--primary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  ng-icon {
+    font-size: 42px;
+  }
+}
+.back-link a {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+
+  ng-icon {
+    font-size: 14px;
+  }
 }

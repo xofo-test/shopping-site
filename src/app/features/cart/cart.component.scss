@@ -106,9 +106,15 @@
     height: 34px;
     border: none;
     background: var(--surface);
-    font-size: 1.1rem;
     cursor: pointer;
     color: var(--text);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    ng-icon {
+      font-size: 14px;
+    }
 
     &:hover {
       background: var(--primary-soft);
@@ -173,4 +179,10 @@
   color: var(--text-muted);
   font-size: 0.78rem;
   margin: var(--space-2) 0 0;
+}
+
+/* ---------- Empty state ---------- */
+.empty-art {
+  color: var(--primary);
+  margin-bottom: var(--space-2);
 }

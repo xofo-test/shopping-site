@@ -1,10 +1,11 @@
 import { Component, inject } from '@angular/core';
 import { RouterLink, RouterLinkActive } from '@angular/router';
+import { NgIcon } from '@ng-icons/core';
 import { CartStore } from '../core/cart-store';
 
 @Component({
   selector: 'app-header',
-  imports: [RouterLink, RouterLinkActive],
+  imports: [RouterLink, RouterLinkActive, NgIcon],
   template: `
     <header class="site-header">
       <div class="container header-inner">
@@ -22,11 +23,7 @@ import { CartStore } from '../core/cart-store';
           <a routerLink="/checkout" routerLinkActive="active" #coLink="routerLinkActive" [attr.aria-current]="coLink.isActive ? 'page' : null">Checkout</a>
         </nav>
         <a class="cart-link" routerLink="/cart" aria-label="View cart">
-          <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-            <path d="M3 4h2.5l2.2 10.5h10.1L20 7H7" />
-            <circle cx="9.5" cy="19" r="1.6" />
-            <circle cx="16.5" cy="19" r="1.6" />
-          </svg>
+          <ng-icon name="phosphorShoppingCartSimple" aria-hidden="true" />
           <span class="badge">{{ store.itemCount() }}</span>
         </a>
       </div>

@@ -9,7 +9,7 @@ import { ConfirmService } from '../core/confirm.service';
     @if (confirm.state(); as c) {
       <div class="dialog-backdrop" (click)="confirm.answer(false)">
         <div class="dialog panel" role="dialog" aria-modal="true" aria-label="Please confirm" (click)="$event.stopPropagation()">
-          <h2>Are you sure?</h2>
+          <h2>{{ c.title }}</h2>
           <p class="dialog-message">{{ c.message }}</p>
           <div class="dialog-actions">
             <button type="button" class="btn btn-ghost" (click)="confirm.answer(false)">Cancel</button>

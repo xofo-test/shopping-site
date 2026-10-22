@@ -3,40 +3,83 @@
    Single source of truth for colour, spacing, radius, shadow,
    typography and breakpoints. Emitted as CSS custom properties
    on :root so component and global styles share one system.
+   Light and dark palettes are both defined here; the page theme
+   follows prefers-color-scheme (tokens only, no per-section
+   inversions).
    ============================================================ */
 
-/* ---------- Colour ---------- */
-$bg: #f5f6fa;
+/* ---------- Light palette (warm stone neutrals, marigold accent) ---------- */
+$bg: #faf9f7;
 $surface: #ffffff;
-$surface-2: #eef0f7;
-$text: #1c2033;
-$text-muted: #5b6178;
-$border: #e2e4ee;
+$surface-2: #f4f2ee;
+$text: #1f1b16;
+$text-muted: #6b6259;
+$border: #e7e3dc;
 
-$primary: #4f46e5;
-$primary-strong: #4338ca;
-$primary-soft: #eef0fe;
+$primary: #b45309;
+$primary-strong: #92400e;
+$primary-contrast: #ffffff;
+$primary-soft: #fbf0e3;
 
-$success: #0f9d58;
-$success-soft: #e7f4ed;
-$danger: #d93025;
+$success: #15803d;
+$success-soft: #e8f5ec;
+$success-border: #bfe3cf;
+$danger: #b42318;
 $danger-soft: #fdecea;
-$warning: #9a6700;
-$warning-soft: #fff3d6;
+$danger-border: #f2c5c0;
+$warning: #8a6116;
+$warning-soft: #fdf3d7;
+$warning-border: #eedaa8;
 
-$focus-ring: #b6b2f8;
+$focus-ring: #c47b2e;
+$star: #e8940a;
+
+$shadow-sm: 0 1px 3px rgba(41, 32, 20, 0.07);
+$shadow-md: 0 8px 24px rgba(41, 32, 20, 0.1);
+
+$toast-bg: #262019;
+$toast-fg: #fffdf9;
+$header-bg: rgba(255, 255, 255, 0.9);
+$backdrop: rgba(31, 27, 22, 0.5);
+
+/* ---------- Dark palette (same hue family, no section inversions) ---------- */
+$dark-bg: #16130f;
+$dark-surface: #1e1a15;
+$dark-surface-2: #292319;
+$dark-text: #f2ede5;
+$dark-text-muted: #a89d8f;
+$dark-border: #373026;
+
+$dark-primary: #e8963e;
+$dark-primary-strong: #f2a94f;
+$dark-primary-contrast: #221503;
+$dark-primary-soft: rgba(232, 150, 62, 0.14);
+
+$dark-success: #55c97e;
+$dark-success-soft: rgba(85, 201, 126, 0.15);
+$dark-success-border: rgba(85, 201, 126, 0.35);
+$dark-danger: #f07a6a;
+$dark-danger-soft: rgba(240, 122, 106, 0.14);
+$dark-danger-border: rgba(240, 122, 106, 0.35);
+$dark-warning: #e4b95b;
+$dark-warning-soft: rgba(228, 185, 91, 0.14);
+$dark-warning-border: rgba(228, 185, 91, 0.35);
+
+$dark-focus-ring: #e0a24e;
+$dark-shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.4);
+$dark-shadow-md: 0 8px 24px rgba(0, 0, 0, 0.5);
+$dark-toast-bg: #f2ede5;
+$dark-toast-fg: #221d16;
+$dark-header-bg: rgba(30, 26, 21, 0.88);
+$dark-backdrop: rgba(10, 8, 6, 0.62);
 
 /* ---------- Typography ---------- */
-$font: "Segoe UI", system-ui, -apple-system, Roboto, "Helvetica Neue", Arial, sans-serif;
+$font: "Outfit", "Segoe UI", system-ui, -apple-system, Roboto, "Helvetica Neue", Arial, sans-serif;
 
-/* ---------- Radius ---------- */
+/* ---------- Radius (documented rule: buttons 8, inputs 8, cards 16) ---------- */
 $radius-sm: 8px;
 $radius-md: 12px;
 $radius-lg: 16px;
-
-/* ---------- Shadow ---------- */
-$shadow-sm: 0 1px 3px rgba(23, 26, 54, 0.07);
-$shadow-md: 0 8px 24px rgba(23, 26, 54, 0.09);
 
 /* ---------- Spacing ---------- */
 $space-1: 4px;
@@ -67,13 +110,19 @@ $bp-mobile: 640px;
   --border: #{$border};
   --primary: #{$primary};
   --primary-strong: #{$primary-strong};
+  --primary-contrast: #{$primary-contrast};
   --primary-soft: #{$primary-soft};
   --success: #{$success};
   --success-soft: #{$success-soft};
+  --success-border: #{$success-border};
   --danger: #{$danger};
   --danger-soft: #{$danger-soft};
+  --danger-border: #{$danger-border};
   --warning: #{$warning};
   --warning-soft: #{$warning-soft};
+  --warning-border: #{$warning-border};
+  --focus-ring: #{$focus-ring};
+  --star: #{$star};
   --radius-sm: #{$radius-sm};
   --radius-md: #{$radius-md};
   --radius-lg: #{$radius-lg};
@@ -85,4 +134,41 @@ $bp-mobile: 640px;
   --space-4: #{$space-4};
   --space-5: #{$space-5};
   --space-6: #{$space-6};
+  --toast-bg: #{$toast-bg};
+  --toast-fg: #{$toast-fg};
+  --header-bg: #{$header-bg};
+  --backdrop: #{$backdrop};
+  color-scheme: light;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #{$dark-bg};
+    --surface: #{$dark-surface};
+    --surface-2: #{$dark-surface-2};
+    --text: #{$dark-text};
+    --text-muted: #{$dark-text-muted};
+    --border: #{$dark-border};
+    --primary: #{$dark-primary};
+    --primary-strong: #{$dark-primary-strong};
+    --primary-contrast: #{$dark-primary-contrast};
+    --primary-soft: #{$dark-primary-soft};
+    --success: #{$dark-success};
+    --success-soft: #{$dark-success-soft};
+    --success-border: #{$dark-success-border};
+    --danger: #{$dark-danger};
+    --danger-soft: #{$dark-danger-soft};
+    --danger-border: #{$dark-danger-border};
+    --warning: #{$dark-warning};
+    --warning-soft: #{$dark-warning-soft};
+    --warning-border: #{$dark-warning-border};
+    --focus-ring: #{$dark-focus-ring};
+    --shadow-sm: #{$dark-shadow-sm};
+    --shadow-md: #{$dark-shadow-md};
+    --toast-bg: #{$dark-toast-bg};
+    --toast-fg: #{$dark-toast-fg};
+    --header-bg: #{$dark-header-bg};
+    --backdrop: #{$dark-backdrop};
+    color-scheme: dark;
+  }
 }

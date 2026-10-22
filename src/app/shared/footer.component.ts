@@ -6,7 +6,7 @@ import { Component } from '@angular/core';
     <footer class="site-footer">
       <div class="container">
         <p class="small muted">
-          Marigold — prototype storefront for the online shopping cart module. Prices in INR (₹). No real orders are
+          Marigold is a prototype storefront for the online shopping cart module. Prices in INR (₹). No real orders are
           placed.
         </p>
       </div>

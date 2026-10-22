@@ -3,21 +3,21 @@
 @if (placed(); as order) {
   <section class="panel success-card">
     <div class="check-circle" aria-hidden="true">
-      <svg viewBox="0 0 24 24" width="36" height="36" fill="none" stroke="#0f9d58" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round">
-        <path d="M4 12.5l5 5L20 6.5" />
-      </svg>
+      <ng-icon name="phosphorCheck" />
     </div>
     <h2>Order placed!</h2>
     <p>
       Order <strong>{{ order.orderId }}</strong> · {{ order.total | money }} paid via {{ order.payment }}.
     </p>
     <p class="muted">Arriving by {{ order.eta }} · {{ order.name }}, {{ order.pin }}</p>
-    <p class="small muted">This is a prototype — no payment was processed and no real order was created.</p>
+    <p class="small muted">This is a prototype, so no payment was processed and no real order was created.</p>
     <a class="btn btn-primary btn-lg" routerLink="/">Continue shopping</a>
   </section>
 } @else if (t().lines.length === 0) {
   <section class="panel empty-state">
-    <div class="hero-art" aria-hidden="true">🧺</div>
+    <div class="basket-circle" aria-hidden="true">
+      <ng-icon name="phosphorBasket" />
+    </div>
     <h2>Nothing to check out</h2>
     <p>Your cart is empty. Add a few items first, then come back to place your order.</p>
     <a class="btn btn-primary btn-lg" routerLink="/">Start shopping</a>
@@ -70,28 +70,30 @@
           <div class="pay-group">
             <label class="pay-option">
               <input type="radio" name="payment" value="UPI" [(ngModel)]="form.payment" />
-              <span class="pay-icon" aria-hidden="true">📱</span>
+              <ng-icon class="pay-icon" name="phosphorDeviceMobile" aria-hidden="true" />
               <span><strong>UPI</strong><br /><span class="muted small">Pay with any UPI app</span></span>
             </label>
             <label class="pay-option">
               <input type="radio" name="payment" value="Card" [(ngModel)]="form.payment" />
-              <span class="pay-icon" aria-hidden="true">💳</span>
+              <ng-icon class="pay-icon" name="phosphorCreditCard" aria-hidden="true" />
               <span><strong>Credit / Debit card</strong><br /><span class="muted small">Visa, Mastercard, RuPay</span></span>
             </label>
             <label class="pay-option">
               <input type="radio" name="payment" value="COD" [(ngModel)]="form.payment" />
-              <span class="pay-icon" aria-hidden="true">💵</span>
+              <ng-icon class="pay-icon" name="phosphorMoney" aria-hidden="true" />
               <span><strong>Cash on delivery</strong><br /><span class="muted small">Pay when your order arrives</span></span>
             </label>
           </div>
         </fieldset>
 
-        <p class="alert alert-info">Prototype only — no payment is processed and no real order is created.</p>
+        <p class="alert alert-info">Prototype only: no payment is processed and no real order is created.</p>
         @if (formError(); as err) {
           <p class="alert alert-error" role="alert">{{ err }}</p>
         }
         <button type="submit" class="btn btn-primary btn-lg btn-block">Place order</button>
-        <p class="small muted center"><a routerLink="/cart">← Back to cart</a></p>
+        <p class="small muted center back-link">
+          <a routerLink="/cart"><ng-icon name="phosphorArrowLeft" aria-hidden="true" /> Back to cart</a>
+        </p>
       </form>
     </section>
 

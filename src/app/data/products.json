@@ -10,6 +10,7 @@
     "blurb": "40-hour battery, hybrid noise cancellation, USB-C fast charge.",
     "icon": "🎧",
     "tone": ["#6366f1", "#8b5cf6"],
+    "photoSeed": "marigold-headphones",
     "variants": { "label": "Colour", "options": ["Midnight Black", "Cloud White", "Steel Blue"] }
   },
   {
@@ -23,6 +24,7 @@
     "blurb": "Everyday running shoes with a cloud-foam midsole and grip outsole.",
     "icon": "👟",
     "tone": ["#0ea5e9", "#14b8a6"],
+    "photoSeed": "marigold-sneakers",
     "variants": { "label": "Size", "options": ["UK 6", "UK 7", "UK 8", "UK 9"] }
   },
   {
@@ -36,6 +38,7 @@
     "blurb": "Gooseneck kettle with a precision flow spout for perfect brews.",
     "icon": "🫖",
     "tone": ["#f59e0b", "#ef4444"],
+    "photoSeed": "marigold-kettle",
     "variants": null
   },
   {
@@ -49,6 +52,7 @@
     "blurb": "Minimal 38 mm dial, sapphire-coated glass, 5 ATM water resistance.",
     "icon": "⌚",
     "tone": ["#334155", "#64748b"],
+    "photoSeed": "marigold-watch",
     "variants": { "label": "Colour", "options": ["Ivory", "Slate Grey"] }
   },
   {
@@ -62,6 +66,7 @@
     "blurb": "180 GSM combed cotton in a relaxed, pre-shrunk fit.",
     "icon": "👕",
     "tone": ["#fb7185", "#f97316"],
+    "photoSeed": "marigold-tee",
     "variants": { "label": "Size", "options": ["S", "M", "L", "XL"] }
   },
   {
@@ -75,6 +80,7 @@
     "blurb": "Water-resistant daypack with padded 15-inch laptop sleeve.",
     "icon": "🎒",
     "tone": ["#65a30d", "#166534"],
+    "photoSeed": "marigold-backpack",
     "variants": { "label": "Colour", "options": ["Olive", "Charcoal"] }
   },
   {
@@ -88,6 +94,7 @@
     "blurb": "Hand-glazed 300 ml mugs, safe for microwave and dishwasher.",
     "icon": "☕",
     "tone": ["#ea580c", "#9a3412"],
+    "photoSeed": "marigold-mugs",
     "variants": null
   },
   {
@@ -101,6 +108,7 @@
     "blurb": "Low-maintenance golden pothos in a matte ceramic pot.",
     "icon": "🪴",
     "tone": ["#10b981", "#047857"],
+    "photoSeed": "marigold-plant",
     "variants": { "label": "Size", "options": ["Small", "Medium"] }
   }
 ]

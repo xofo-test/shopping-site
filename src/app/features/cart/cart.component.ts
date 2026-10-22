@@ -1,6 +1,7 @@
 import { Component, computed, inject, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { RouterLink } from '@angular/router';
+import { NgIcon } from '@ng-icons/core';
 import { CartLine } from '../../data/models';
 import { CartStore } from '../../core/cart-store';
 import { CouponService } from '../../core/coupon.service';
@@ -13,7 +14,8 @@ import { MoneyPipe } from '../../shared/money.pipe';
 interface LineView {
   line: CartLine;
   name: string;
-  image: string;
+  photoUrl: string;
+  fallback: string;
   variantText: string;
   unitPrice: number;
   subtotal: number;
@@ -21,7 +23,7 @@ interface LineView {
 
 @Component({
   selector: 'app-cart',
-  imports: [RouterLink, FormsModule, MoneyPipe, OrderSummaryComponent],
+  imports: [RouterLink, FormsModule, MoneyPipe, OrderSummaryComponent, NgIcon],
   templateUrl: './cart.component.html',
   styleUrl: './cart.component.scss',
 })
@@ -47,7 +49,7 @@ export class CartComponent {
   protected readonly couponMsg = signal<{ ok: boolean; text: string } | null>(null);
   protected couponInput = '';
 
-  protected readonly validCodes = this.couponService.validCodes().join(' · ');
+  protected readonly validCodes = this.couponService.validCodes().join(', ');
 
   protected lineView(l: CartLine): LineView | null {
     const p = this.productService.productOf(l.productId);
@@ -55,11 +57,16 @@ export class CartComponent {
     return {
       line: l,
       name: p.name,
-      image: p.image,
+      photoUrl: p.photoUrl,
+      fallback: p.image,
       variantText: l.variant ? (p.variants ? p.variants.label + ': ' : '') + l.variant : p.category,
       unitPrice: p.price,
       subtotal: p.price * l.qty,
     };
+  }
+
+  protected onImgError(ev: Event, v: LineView): void {
+    (ev.target as HTMLImageElement).src = v.fallback;
   }
 
   protected step(l: CartLine, delta: number): void {
@@ -67,7 +74,11 @@ export class CartComponent {
   }
 
   protected async clearCart(): Promise<void> {
-    const ok = await this.confirm.confirm('Remove all items from your cart?', 'Clear cart');
+    const ok = await this.confirm.confirm(
+      'This removes every item and any applied coupon.',
+      'Clear cart',
+      'Clear the whole cart?',
+    );
     if (ok) {
       this.store.clear();
       this.toast.show('Cart cleared');

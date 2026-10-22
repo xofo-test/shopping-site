@@ -1,4 +1,5 @@
 import { Component, inject, input, output } from '@angular/core';
+import { NgIcon } from '@ng-icons/core';
 import { Totals } from '../data/models';
 import { ProductService } from '../core/product.service';
 import { PricingService } from '../core/pricing.service';
@@ -11,7 +12,7 @@ import { MoneyPipe } from './money.pipe';
  */
 @Component({
   selector: 'app-order-summary',
-  imports: [MoneyPipe],
+  imports: [MoneyPipe, NgIcon],
   styles: `
     .summary-rows {
       margin: 0 0 var(--space-4);
@@ -72,6 +73,13 @@ import { MoneyPipe } from './money.pipe';
       font-weight: 600;
       font-size: 0.85rem;
       margin: var(--space-2) 0 0;
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+
+      ng-icon {
+        font-size: 15px;
+      }
     }
     .compact-line {
       display: flex;
@@ -104,7 +112,7 @@ import { MoneyPipe } from './money.pipe';
       @for (l of totals().lines; track l.id) {
         @if (productOf(l.productId); as p) {
           <div class="compact-line">
-            <img [src]="p.image" alt="" />
+            <img [src]="p.photoUrl" alt="" width="44" height="44" loading="lazy" (error)="productService.handleImageError($event, p)" />
             <div class="grow">
               <div class="name">{{ p.name }}@if (l.variant) {<span> · {{ l.variant }}</span>}</div>
               <div class="muted small">Qty {{ l.qty }} × {{ p.price | money }}</div>
@@ -137,7 +145,7 @@ import { MoneyPipe } from './money.pipe';
       } @else if (totals().coupon.code && !showChip()) {
         <div class="summary-row">
           <dt class="muted small">Coupon {{ totals().coupon.code }} not applied ({{ totals().coupon.reason }})</dt>
-          <dd>—</dd>
+          <dd></dd>
         </div>
       }
       <div class="summary-row">
@@ -154,12 +162,12 @@ import { MoneyPipe } from './money.pipe';
       </div>
     </dl>
     @if (showSavings() && totals().discount > 0) {
-      <p class="savings-note">You are saving {{ totals().discount | money }} on this order 🎉</p>
+      <p class="savings-note"><ng-icon name="phosphorPiggyBank" aria-hidden="true" /> You are saving {{ totals().discount | money }} on this order.</p>
     }
   `,
 })
 export class OrderSummaryComponent {
-  private readonly productService = inject(ProductService);
+  protected readonly productService = inject(ProductService);
 
   protected readonly pricing = inject(PricingService);
 

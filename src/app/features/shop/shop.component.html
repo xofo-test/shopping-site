@@ -1,9 +1,20 @@
 <section class="hero panel">
-  <div>
+  <div class="hero-copy">
     <h1>Everyday essentials, thoughtfully picked.</h1>
-    <p class="muted">Free delivery on every order · GST calculated at checkout · Easy 30-day returns.</p>
+    <p class="muted">Free delivery on every order, GST calculated at checkout and easy 30-day returns.</p>
   </div>
-  <div class="hero-art" aria-hidden="true">🛍️</div>
+  <div class="hero-media">
+    @if (!heroImgFailed()) {
+      <img
+        src="https://picsum.photos/seed/marigold-storefront/900/1100"
+        alt="Marigold store"
+        width="900"
+        height="1100"
+        fetchpriority="high"
+        (error)="heroImgFailed.set(true)"
+      />
+    }
+  </div>
 </section>
 
 <div class="section-head">
@@ -15,14 +26,14 @@
   @for (p of products; track p.id) {
     <article class="product-card">
       <div class="product-media">
-        <img [src]="p.image" [alt]="p.name" />
+        <img [src]="p.photoUrl" [alt]="p.name" width="640" height="640" loading="lazy" (error)="onImgError($event, p)" />
       </div>
       <div class="product-body">
         <span class="chip">{{ p.category }}</span>
         <h3>{{ p.name }}</h3>
         <p class="muted small clamp">{{ p.blurb }}</p>
         <p class="rating" [attr.aria-label]="'Rated ' + p.rating + ' out of 5'">
-          <span class="star" aria-hidden="true">★</span> {{ p.rating }}
+          <ng-icon name="phosphorStarFill" class="star" aria-hidden="true" /> {{ p.rating }}
           <span class="muted small">({{ reviewsText(p.reviews) }} reviews)</span>
         </p>
         <p class="price-row">

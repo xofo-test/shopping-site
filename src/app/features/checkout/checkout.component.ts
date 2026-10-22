@@ -1,6 +1,7 @@
 import { Component, computed, inject, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { RouterLink } from '@angular/router';
+import { NgIcon } from '@ng-icons/core';
 import { CartStore } from '../../core/cart-store';
 import { ToastService } from '../../core/toast.service';
 import { OrderSummaryComponent } from '../../shared/order-summary.component';
@@ -17,7 +18,7 @@ interface PlacedOrder {
 
 @Component({
   selector: 'app-checkout',
-  imports: [RouterLink, FormsModule, MoneyPipe, OrderSummaryComponent],
+  imports: [RouterLink, FormsModule, MoneyPipe, OrderSummaryComponent, NgIcon],
   templateUrl: './checkout.component.html',
   styleUrl: './checkout.component.scss',
 })
@@ -82,6 +83,6 @@ export class CheckoutComponent {
     });
 
     this.store.clear(); // empties cart + coupon
-    this.toast.show('Order ' + orderId + ' placed 🎉');
+    this.toast.show('Order ' + orderId + ' placed');
   }
 }

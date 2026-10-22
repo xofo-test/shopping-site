@@ -5,6 +5,7 @@
 import { Injectable, signal } from '@angular/core';
 
 export interface ConfirmState {
+  title: string;
   message: string;
   confirmLabel: string;
   resolve: (ok: boolean) => void;
@@ -14,8 +15,8 @@ export interface ConfirmState {
 export class ConfirmService {
   readonly state = signal<ConfirmState | null>(null);
 
-  confirm(message: string, confirmLabel = 'Confirm'): Promise<boolean> {
-    return new Promise((resolve) => this.state.set({ message, confirmLabel, resolve }));
+  confirm(message: string, confirmLabel = 'Confirm', title = 'Are you sure?'): Promise<boolean> {
+    return new Promise((resolve) => this.state.set({ title, message, confirmLabel, resolve }));
   }
 
   answer(ok: boolean): void {
