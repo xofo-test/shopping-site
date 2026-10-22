@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Checkout — Marigold</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="brand" href="index.html"><span class="brand-mark" aria-hidden="true">❖</span> Marigold</a>
+      <nav class="site-nav" aria-label="Primary">
+        <a href="index.html">Shop</a>
+        <a href="cart.html">Cart</a>
+        <a href="checkout.html" class="active" aria-current="page">Checkout</a>
+      </nav>
+      <a class="cart-link" href="cart.html" aria-label="View cart">
+        <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M3 4h2.5l2.2 10.5h10.1L20 7H7"></path>
+          <circle cx="9.5" cy="19" r="1.6"></circle>
+          <circle cx="16.5" cy="19" r="1.6"></circle>
+        </svg>
+        <span class="badge" id="cartCount">0</span>
+      </a>
+    </div>
+  </header>
+
+  <main class="container page">
+    <h1>Checkout</h1>
+    <div id="emptyNotice" hidden>
+      <section class="panel empty-state">
+        <div class="hero-art" aria-hidden="true">🧺</div>
+        <h2>Nothing to check out</h2>
+        <p>Your cart is empty. Add a few items first, then come back to place your order.</p>
+        <a class="btn btn-primary btn-lg" href="index.html">Start shopping</a>
+      </section>
+    </div>
+
+    <div id="checkoutFlow" class="checkout-layout" hidden>
+      <section class="panel checkout-form" aria-label="Delivery and payment details">
+        <form id="checkoutForm" novalidate>
+          <fieldset>
+            <legend>Delivery details</legend>
+            <div class="form-grid">
+              <label class="field">Full name
+                <input type="text" id="fName" autocomplete="name" placeholder="Ananya Sharma">
+              </label>
+              <label class="field">Phone
+                <input type="tel" id="fPhone" autocomplete="tel" placeholder="98765 43210">
+              </label>
+              <label class="field span-2">Address
+                <textarea id="fAddress" autocomplete="street-address" placeholder="Flat 402, Lotus Residency, 12th Main Road, Indiranagar"></textarea>
+              </label>
+              <label class="field">City
+                <input type="text" id="fCity" placeholder="Bengaluru">
+              </label>
+              <label class="field">State
+                <select id="fState">
+                  <option>Karnataka</option>
+                  <option>Maharashtra</option>
+                  <option>Delhi</option>
+                  <option>Tamil Nadu</option>
+                  <option>Telangana</option>
+                  <option>Gujarat</option>
+                  <option>West Bengal</option>
+                  <option>Kerala</option>
+                </select>
+              </label>
+              <label class="field">PIN code
+                <input type="text" id="fPin" inputmode="numeric" maxlength="6" placeholder="560038">
+              </label>
+            </div>
+          </fieldset>
+
+          <fieldset>
+            <legend>Payment method</legend>
+            <div class="pay-group">
+              <label class="pay-option">
+                <input type="radio" name="pay" value="UPI" checked>
+                <span class="pay-icon" aria-hidden="true">📱</span>
+                <span><strong>UPI</strong><br><span class="muted small">Pay with any UPI app</span></span>
+              </label>
+              <label class="pay-option">
+                <input type="radio" name="pay" value="Card">
+                <span class="pay-icon" aria-hidden="true">💳</span>
+                <span><strong>Credit / Debit card</strong><br><span class="muted small">Visa, Mastercard, RuPay</span></span>
+              </label>
+              <label class="pay-option">
+                <input type="radio" name="pay" value="COD">
+                <span class="pay-icon" aria-hidden="true">💵</span>
+                <span><strong>Cash on delivery</strong><br><span class="muted small">Pay when your order arrives</span></span>
+              </label>
+            </div>
+          </fieldset>
+
+          <p class="alert alert-info">Prototype only — no payment is processed and no real order is created.</p>
+          <p class="alert alert-error" id="formError" hidden role="alert"></p>
+          <button type="submit" class="btn btn-primary btn-lg btn-block">Place order</button>
+          <p class="small muted center"><a href="cart.html">← Back to cart</a></p>
+        </form>
+      </section>
+
+      <aside class="panel summary" aria-label="Order summary">
+        <h2>Order summary</h2>
+        <div id="compactLines"></div>
+        <dl class="summary-rows" id="summaryRows"></dl>
+      </aside>
+    </div>
+
+    <div id="successCard" hidden></div>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <p class="small muted">Marigold — prototype storefront for the online shopping cart module. Prices in INR (₹). No real orders are placed.</p>
+    </div>
+  </footer>
+
+  <script src="fixtures.js"></script>
+  <script src="cart.js"></script>
+  <script>
+    (function () {
+      var OSC = window.OSC;
+      var F = window.OSC_FIXTURES;
+      var emptyNotice = document.getElementById("emptyNotice");
+      var flow = document.getElementById("checkoutFlow");
+      var successCard = document.getElementById("successCard");
+      var form = document.getElementById("checkoutForm");
+      var errorBox = document.getElementById("formError");
+      var placed = false;
+
+      function renderSummary() {
+        var t = OSC.totals();
+        document.getElementById("cartCount").textContent = t.itemCount;
+
+        if (placed) return;
+
+        if (t.lines.length === 0) {
+          emptyNotice.hidden = false;
+          flow.hidden = true;
+          return;
+        }
+        emptyNotice.hidden = true;
+        flow.hidden = false;
+
+        document.getElementById("compactLines").innerHTML = t.lines.map(function (l) {
+          var p = OSC.productOf(l.productId);
+          return '<div class="compact-line">' +
+            '<img src="' + p.image + '" alt="">' +
+            '<div class="grow"><div class="name">' + p.name + (l.variant ? " · " + l.variant : "") + '</div>' +
+            '<div class="muted small">Qty ' + l.qty + ' × ' + OSC.money(p.price) + '</div></div>' +
+            '<div class="amt">' + OSC.money(p.price * l.qty) + '</div></div>';
+        }).join("");
+
+        var rows = "";
+        rows += '<div class="summary-row"><dt>Subtotal</dt><dd>' + OSC.money(t.subtotal) + "</dd></div>";
+        if (t.coupon.applied) {
+          rows += '<div class="summary-row"><dt>Discount (' + t.coupon.code + ')</dt><dd class="neg">−' + OSC.money(t.discount) + "</dd></div>";
+        } else if (t.coupon.code) {
+          rows += '<div class="summary-row"><dt class="muted small">Coupon ' + t.coupon.code + " not applied (" + t.coupon.reason + ")</dt><dd>—</dd></div>";
+        }
+        rows += '<div class="summary-row"><dt>Estimated delivery</dt><dd>' + OSC.money(t.delivery) + "</dd></div>";
+        rows += '<div class="summary-row"><dt>' + F.pricing.taxLabel + '</dt><dd>' + OSC.money(t.tax) + "</dd></div>";
+        rows += '<div class="summary-row total-row"><dt>Total</dt><dd>' + OSC.money(t.total) + "</dd></div>";
+        document.getElementById("summaryRows").innerHTML = rows;
+      }
+
+      form.addEventListener("submit", function (e) {
+        e.preventDefault();
+        var t = OSC.totals();
+        if (t.lines.length === 0) { renderSummary(); return; }
+
+        var name = document.getElementById("fName").value.trim();
+        var address = document.getElementById("fAddress").value.trim();
+        var pin = document.getElementById("fPin").value.trim();
+        var missing = [];
+        if (!name) missing.push("full name");
+        if (!address) missing.push("address");
+        if (!/^\d{6}$/.test(pin)) missing.push("a valid 6-digit PIN code");
+        if (missing.length) {
+          errorBox.textContent = "Please enter your " + missing.join(", ") + ".";
+          errorBox.hidden = false;
+          return;
+        }
+        errorBox.hidden = true;
+
+        var payment = form.querySelector('input[name="pay"]:checked').value;
+        var orderId = "MG-" + (100000 + Math.floor(Math.random() * 900000));
+        var eta = new Date(Date.now() + 5 * 86400000)
+          .toLocaleDateString(F.currency.locale, { weekday: "short", day: "numeric", month: "short" });
+
+        placed = true;
+        OSC.clear(); // empties cart + coupon
+
+        flow.hidden = true;
+        emptyNotice.hidden = true;
+        successCard.hidden = false;
+        successCard.innerHTML =
+          '<section class="panel success-card">' +
+            '<div class="check-circle" aria-hidden="true">' +
+              '<svg viewBox="0 0 24 24" width="36" height="36" fill="none" stroke="#0f9d58" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round">' +
+                '<path d="M4 12.5l5 5L20 6.5"></path>' +
+              "</svg>" +
+            "</div>" +
+            "<h2>Order placed!</h2>" +
+            '<p>Order <strong>' + orderId + "</strong> · " + OSC.money(t.total) + " paid via " + payment + ".</p>" +
+            '<p class="muted">Arriving by ' + eta + ' · ' + name + ", " + pin + "</p>" +
+            '<p class="small muted">This is a prototype — no payment was processed and no real order was created.</p>' +
+            '<a class="btn btn-primary btn-lg" href="index.html">Continue shopping</a>' +
+          "</section>";
+        OSC.toast("Order " + orderId + " placed 🎉");
+      });
+
+      OSC.onChange(renderSummary);
+      renderSummary();
+    })();
+  </script>
+</body>
+</html>
