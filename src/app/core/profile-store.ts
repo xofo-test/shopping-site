@@ -42,7 +42,10 @@ function readJson<T>(key: string, fallback: T, isValid: (value: unknown) => valu
   }
 }
 
-/** Shape guard so corrupt-but-valid JSON never enters the store. */
+/** Shape guard so corrupt-but-valid JSON never enters the store.
+ *  Deliberately lenient, like CartStore's guards: stored objects with
+ *  extra keys still pass. Extras never render and are dropped on the
+ *  next save, which rebuilds the object with exactly the three fields. */
 function isProfile(value: unknown): value is Profile {
   if (typeof value !== 'object' || value === null || Array.isArray(value)) return false;
   const v = value as Record<string, unknown>;

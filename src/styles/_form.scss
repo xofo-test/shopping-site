@@ -1,0 +1,67 @@
+/* ============================================================
+   Marigold — shared form rules (component-scoped partial)
+   Single source of truth for the checkout-style form:
+   fieldset/legend, .field, inputs/textarea, .form-grid.
+   @use'd by the checkout and profile components so the copies
+   cannot drift. Global .panel/.alert/.btn primitives live in
+   styles.scss instead.
+   ============================================================ */
+
+fieldset {
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  padding: var(--space-4);
+  margin: 0 0 var(--space-4);
+}
+legend {
+  font-weight: 700;
+  padding: 0 var(--space-2);
+  font-size: 0.95rem;
+}
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--text-muted);
+}
+input[type='text'],
+input[type='tel'],
+input[type='email'],
+select,
+textarea {
+  font: inherit;
+  color: var(--text);
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: 9px 12px;
+  width: 100%;
+
+  &:focus {
+    border-color: var(--primary);
+    outline: none;
+  }
+}
+textarea {
+  resize: vertical;
+  min-height: 70px;
+}
+.form-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--space-4);
+
+  .span-2 {
+    grid-column: span 2;
+  }
+
+  @media (max-width: 640px) {
+    grid-template-columns: 1fr;
+
+    .span-2 {
+      grid-column: span 1;
+    }
+  }
+}

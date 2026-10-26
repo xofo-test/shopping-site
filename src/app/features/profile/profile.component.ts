@@ -21,7 +21,11 @@ export class ProfileComponent {
   /** False when localStorage is blocked — drives the storage-unavailable warning. */
   protected readonly persistent = this.store.persistent;
 
-  /** Editable copy of the saved profile, pre-filled on revisit. */
+  /** Editable copy of the saved profile, pre-filled on revisit.
+   *  Deliberately a one-shot snapshot: the profile has no cross-tab
+   *  storage sync (per the approved flow), so the `profile` signal only
+   *  ever changes through this page's own save, which goes through
+   *  `form` itself. If cross-tab sync ever lands, re-sync `form` here. */
   protected form = { ...this.store.profile() };
 
   protected formError = signal<string | null>(null);
