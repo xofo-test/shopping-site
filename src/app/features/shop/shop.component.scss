@@ -129,6 +129,12 @@
     max-width: 60%;
   }
 }
+/* QB-1012-1: cards without a variant selector have no margin-top: auto element,
+   so their Add to cart button floated up; anchor it to the card bottom like the
+   variant cards do via .variant-label's margin-top: auto. */
+.anchor-bottom {
+  margin-top: auto;
+}
 
 /* ---------- Mobile: hero stacks, copy first ---------- */
 @media (max-width: 640px) {

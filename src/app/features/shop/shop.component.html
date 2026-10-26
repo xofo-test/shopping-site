@@ -51,7 +51,7 @@
             </select>
           </label>
         }
-        <button type="button" class="btn btn-primary btn-block" (click)="add(p)">Add to cart</button>
+        <button type="button" class="btn btn-primary btn-block" [class.anchor-bottom]="!p.variants" (click)="add(p)">Add to cart</button>
       </div>
     </article>
   }
