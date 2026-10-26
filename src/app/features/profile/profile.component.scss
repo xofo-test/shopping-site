@@ -1,0 +1,11 @@
+/* Form rules (fieldset/legend, .field, inputs, .form-grid) come from
+   the shared partial — the same single source checkout.component.scss
+   uses. Global .panel/.alert/.btn primitives come from styles.scss. */
+@use '../../../styles/form';
+
+/* Page-specific: centered panel per the approved UI. */
+.profile-panel {
+  max-width: 640px;
+  margin: 0 auto;
+  padding: var(--space-5);
+}

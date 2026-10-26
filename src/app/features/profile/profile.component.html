@@ -1,0 +1,40 @@
+<h1>Your profile</h1>
+
+@if (!persistent) {
+  <p class="alert alert-warning" role="status">
+    Storage is unavailable in this browser session, so your profile will not survive a page reload.
+  </p>
+}
+
+<section class="panel profile-panel" aria-label="Profile details">
+  <form (ngSubmit)="save()" novalidate>
+    <fieldset>
+      <legend>Personal details</legend>
+      <div class="form-grid">
+        <label class="field">
+          Full name
+          <input type="text" name="name" autocomplete="name" placeholder="Ananya Sharma" [(ngModel)]="form.name" />
+        </label>
+        <label class="field">
+          Phone
+          <input type="tel" name="phone" autocomplete="tel" placeholder="98765 43210" [(ngModel)]="form.phone" />
+        </label>
+        <label class="field span-2">
+          Address
+          <textarea
+            name="address"
+            autocomplete="street-address"
+            placeholder="Flat 402, Lotus Residency, 12th Main Road, Indiranagar"
+            [(ngModel)]="form.address"
+          ></textarea>
+        </label>
+      </div>
+    </fieldset>
+
+    <p class="alert alert-info">Prototype only: your details are saved in this browser and sent nowhere.</p>
+    @if (formError(); as err) {
+      <p class="alert alert-error" role="alert">{{ err }}</p>
+    }
+    <button type="submit" class="btn btn-primary btn-lg">Save profile</button>
+  </form>
+</section>
