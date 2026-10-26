@@ -24,5 +24,6 @@ describe('AppComponent', () => {
     expect(nav).toContain('Shop');
     expect(nav).toContain('Cart');
     expect(nav).toContain('Checkout');
+    expect(nav).toContain('Profile');
   });
 });

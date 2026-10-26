@@ -1,0 +1,66 @@
+/* Mirrors the approved checkout form styles (fieldset/legend,
+   .field, .form-grid) — those are component-scoped in
+   checkout.component.scss, so the profile page carries its own
+   copy. Global .panel/.alert/.btn primitives come from styles.scss. */
+.profile-panel {
+  max-width: 640px;
+  margin: 0 auto;
+  padding: var(--space-5);
+}
+
+fieldset {
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  padding: var(--space-4);
+  margin: 0 0 var(--space-4);
+}
+legend {
+  font-weight: 700;
+  padding: 0 var(--space-2);
+  font-size: 0.95rem;
+}
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--text-muted);
+}
+input[type='text'],
+input[type='tel'],
+textarea {
+  font: inherit;
+  color: var(--text);
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: 9px 12px;
+  width: 100%;
+
+  &:focus {
+    border-color: var(--primary);
+    outline: none;
+  }
+}
+textarea {
+  resize: vertical;
+  min-height: 70px;
+}
+.form-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--space-4);
+
+  .span-2 {
+    grid-column: span 2;
+  }
+
+  @media (max-width: 640px) {
+    grid-template-columns: 1fr;
+
+    .span-2 {
+      grid-column: span 1;
+    }
+  }
+}

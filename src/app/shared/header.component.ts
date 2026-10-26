@@ -21,6 +21,7 @@ import { CartStore } from '../core/cart-store';
           >
           <a routerLink="/cart" routerLinkActive="active" #cartLink="routerLinkActive" [attr.aria-current]="cartLink.isActive ? 'page' : null">Cart</a>
           <a routerLink="/checkout" routerLinkActive="active" #coLink="routerLinkActive" [attr.aria-current]="coLink.isActive ? 'page' : null">Checkout</a>
+          <a routerLink="/profile" routerLinkActive="active" #prLink="routerLinkActive" [attr.aria-current]="prLink.isActive ? 'page' : null">Profile</a>
         </nav>
         <a class="cart-link" routerLink="/cart" aria-label="View cart">
           <ng-icon name="phosphorShoppingCartSimple" aria-hidden="true" />
